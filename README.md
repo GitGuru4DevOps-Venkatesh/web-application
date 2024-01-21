@@ -1,4 +1,4 @@
-# web-application
+# Web-application
  Steps for setting up a simple DevOps pipeline for your web application using Git, Jenkins, Docker, and Kubernetes.
 
 Let's create a simple DevOps project for a web application using Git for version control, Jenkins for CI/CD, Docker for containerization, and Kubernetes for orchestration.
@@ -164,3 +164,90 @@ spec:
 - Deploy the application on your chosen cloud platform (AWS, Azure, GCP).
 
 This is a basic guide, and you may need to customize these steps based on your specific requirements and the structure of your web application.
+----------------------------------------------------------------
+Sure, I can guide you through the process of setting up a simple DevOps pipeline for your web application using Git, Jenkins, Docker, and Kubernetes. Please note that the instructions assume you have the necessary access and permissions for creating resources in AWS, setting up EC2 instances, and installing software.
+
+### Step 1: Set Up Git Repository
+
+1. Create a new Git repository for your web application.
+2. Push your existing code to the repository.
+
+### Step 2: Set Up Jenkins
+
+1. Launch an EC2 instance in AWS with Ubuntu Server.
+2. Install Jenkins on the EC2 instance.
+
+    ```bash
+    sudo apt update
+    sudo apt install openjdk-11-jdk
+    sudo apt install jenkins
+    ```
+
+3. Start Jenkins service.
+
+    ```bash
+    sudo systemctl start jenkins
+    sudo systemctl enable jenkins
+    ```
+
+4. Open Jenkins in your browser by accessing `http://your_server_ip:8080`.
+
+5. Follow the on-screen instructions to complete the Jenkins setup and install necessary plugins.
+
+### Step 3: Configure Jenkins Job
+
+1. Create a new Jenkins job:
+
+    - Choose "Freestyle project" or "Pipeline" depending on your preference.
+
+2. Configure the job:
+
+    - In the Source Code Management section, link your Git repository.
+
+    - In the Build section, add a build step to execute shell commands:
+
+        ```bash
+        #!/bin/bash
+        cd /path/to/your/web-application
+        docker build -t your-docker-username/web-application:latest .
+        docker push your-docker-username/web-application:latest
+        ```
+
+3. Save the Jenkins job configuration.
+
+### Step 4: Docker Hub
+
+1. Create an account on [Docker Hub](https://hub.docker.com/) if you don't have one.
+
+2. Create a new repository for your Docker image.
+
+### Step 5: Set Up Kubernetes Cluster
+
+1. Launch another EC2 instance for Kubernetes (you can use tools like kops or kubeadm).
+
+2. Install Kubernetes on the instance.
+
+3. Configure `kubectl` to connect to your Kubernetes cluster.
+
+### Step 6: Deploy to Kubernetes
+
+1. Create the Kubernetes Deployment and Service files (`deployment.yaml` and `service.yaml`) based on your provided configurations.
+
+2. Apply the Kubernetes resources:
+
+    ```bash
+    kubectl apply -f deployment.yaml
+    kubectl apply -f service.yaml
+    ```
+
+### Step 7: Access the Application
+
+1. Wait for the LoadBalancer service to get an external IP (this may take a few minutes).
+
+    ```bash
+    kubectl get svc -o wide
+    ```
+
+2. Access your web application using the external IP.
+
+Now, whenever you push changes to your Git repository, Jenkins will trigger a build, and the updated Docker image will be deployed to your Kubernetes cluster.
