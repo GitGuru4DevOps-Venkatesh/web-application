@@ -2,20 +2,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: your-app
+  name: web-application
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: your-app
+      app: web-application
   template:
     metadata:
       labels:
-        app: your-app
+        app: web-application
     spec:
       containers:
-      - name: your-app
-        image: your-docker-registry/your-app:latest
+      - name: web-application
+        image: venkateshdocker1/web-application:latest
         ports:
         - containerPort: 8080
 

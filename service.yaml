@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: your-app-service
+  name: web-application-service
 spec:
   selector:
-    app: your-app
+    app: web-application
   ports:
     - protocol: TCP
       port: 80
